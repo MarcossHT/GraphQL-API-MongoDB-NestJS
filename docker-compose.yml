@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: marcosht
+      MONGO_INITDB_ROOT_PASSWORD: mongo123
+    ports:
+      - "27017:27017"
+    networks:
+      - mongo-compose-network
+networks: 
+    mongo-compose-network:
+      driver: bridge

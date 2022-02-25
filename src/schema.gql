@@ -1,0 +1,45 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input UserInputType {
+  name: String!
+  email: String!
+  password: String!
+}
+
+type Query {
+  users: [UserArrayResult!]!
+}
+
+union UserArrayResult = UserArray
+
+type UserArray {
+  UserData: [UserInput!]!
+}
+
+type Mutation {
+  createUser(data: CreateUserInput!): UserResult!
+  updateUser(data: CreateUserInput!, id: String!): UserResult!
+  deleteUser(id: String!): UserResult!
+}
+
+union UserResult = User
+
+type User {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+}
