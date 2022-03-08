@@ -24,7 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) API project with Nest, mongoDB and docker. 
+[Nest](https://github.com/nestjs/nest) API project with mongoDB and docker. 
 
 ## Installation
 
