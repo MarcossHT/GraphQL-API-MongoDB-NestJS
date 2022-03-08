@@ -3,43 +3,61 @@
 # ------------------------------------------------------
 
 type UserInput {
-  name: String!
-  email: String!
-  password: String!
+  id: String
+  name: String
+  email: String
 }
 
 input UserInputType {
-  name: String!
-  email: String!
-  password: String!
+  id: String
+  name: String
+  email: String
 }
 
 type Query {
-  users: [UserArrayResult!]!
+  users: UserArrayResult!
+  user(id: String!): UserFind!
 }
 
-union UserArrayResult = UserArray
+union UserArrayResult = UserArrayType
 
-type UserArray {
+type UserArrayType {
   UserData: [UserInput!]!
+}
+
+union UserFind = Find
+
+type Find {
+  id: String
+  name: String
+  email: String
+  password: String
 }
 
 type Mutation {
   createUser(data: CreateUserInput!): UserResult!
-  updateUser(data: CreateUserInput!, id: String!): UserResult!
-  deleteUser(id: String!): UserResult!
+  deleteUser(id: String!): UserSuccessResult!
+  updateUser(data: CreateUserInput!, id: String!): UserSuccessResult!
 }
 
 union UserResult = User
 
 type User {
-  name: String!
-  email: String!
-  password: String!
+  id: String
+  name: String
+  email: String
+  password: String
 }
 
 input CreateUserInput {
   name: String!
   email: String!
   password: String!
+  id: String
+}
+
+union UserSuccessResult = SuccessMessage
+
+type SuccessMessage {
+  message: String!
 }

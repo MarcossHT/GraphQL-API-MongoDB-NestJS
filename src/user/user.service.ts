@@ -1,29 +1,37 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from './user.entity';
-import { Model } from 'mongoose';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUser } from './dto/update-user'; 
+import { Injectable } from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose'
+import { User, UserDocument } from './user.entity'
+import { Model } from 'mongoose'
+import { CreateUserInput } from './dto/create-user.input'
+import { UpdateUser } from './dto/update-user'
+import { v4 as uuidv4 } from 'uuid'
 
 @Injectable()
 export class UserService {
-    constructor(@InjectModel(User.name) private UserModel: Model<UserDocument>) {}
+    constructor(
+        @InjectModel(User.name) private UserModel: Model<UserDocument>
+    ) {}
 
     create(createUserInput: CreateUserInput) {
-        const user = new this.UserModel(createUserInput);
-        return user.save();
+        createUserInput.id = uuidv4()
+        const user = new this.UserModel(createUserInput)
+        user.save()
+        return createUserInput
     }
 
-    findAll() {
-        return this.UserModel.find();
+    async findAll(): Promise<User[]> {
+        const result = await this.UserModel.find().exec()
+        return result
     }
 
-    findOne(id: string) {
-        return this.UserModel.findById(id);
+    async findOne(id: string): Promise<User> {
+        return await this.UserModel.findOne({
+            id: id,
+        })
     }
 
     update(id: string, updateUser: UpdateUser) {
-        return this.UserModel.findByIdAndUpdate(
+        this.UserModel.findByIdAndUpdate(
             {
                 _id: id,
             },
@@ -33,14 +41,13 @@ export class UserService {
             {
                 new: true,
             }
-        );
+        )
+        return updateUser
     }
 
     remove(id: string) {
-        return this.UserModel.findOneAndDelete(
-            {
-                _id: id,
-            }
-        ).exec();
+        return this.UserModel.findOneAndDelete({
+            id: id,
+        }).exec()
     }
 }
