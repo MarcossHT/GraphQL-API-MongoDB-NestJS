@@ -35,9 +35,7 @@ export class UserService {
             {
                 _id: id,
             },
-            {
                 updateUser,
-            },
             {
                 new: true,
             }
